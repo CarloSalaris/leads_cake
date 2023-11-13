@@ -48,6 +48,10 @@ class LeadsTable extends Table
         $this->hasMany('LeadOffers', [
             'foreignKey' => 'leads_id',
         ]);
+        /* $this->belongsTo('Users', [
+            'foreignKey' => 'users_id',
+            'joinType' => 'INNER',
+        ]); */
 
         $this->addBehavior('Timestamp');
     }
@@ -60,6 +64,11 @@ class LeadsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
+        /* $validator
+            ->integer('users_id')
+            ->notEmptyString('users_id')
+            ->add('users_id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+ */
         $validator
             ->scalar('ragione_sociale')
             ->maxLength('ragione_sociale', 255)
