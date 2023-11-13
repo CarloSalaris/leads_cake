@@ -111,5 +111,11 @@ return function (RouteBuilder $routes): void {
         $builder->connect("/clients/add", ["controller" => "Clients", "action" => "addClient"]);
         $builder->connect("/clients/update/{id}", ["controller" => "Clients", "action" => "updateClient"])->setPass(["id"]);
         $builder->connect("/clients/delete/{id}", ["controller" => "Clients", "action" => "deleteClient"])->setPass(["id"]);
+
+        // LeadOffers
+        $builder->connect("/lead_offers/index", ["controller" => "LeadOffers", "action" => "listLeadOffers"]);
+        $builder->connect("/lead_offers/add", ["controller" => "LeadOffers", "action" => "addLeadOffer"]);
+        $builder->connect("/lead_offers/update/{id}", ["controller" => "LeadOffers", "action" => "updateLeadOffer"])->setPass(["id"]);
+        $builder->connect("/lead_offers/delete/{id}", ["controller" => "LeadOffers", "action" => "deleteLeadOffer"])->setPass(["id"]);
      });
 };
