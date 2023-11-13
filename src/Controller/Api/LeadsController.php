@@ -24,7 +24,7 @@ class LeadsController extends AppController
         $this->request->allowMethod(["get"]);
 
         $leads = $this->Leads->find()
-        ->contain(['Clients'])
+        ->contain(['Clients', 'LeadOffers'])
         ->toList();
 
         $this->set([
