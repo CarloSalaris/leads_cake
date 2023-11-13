@@ -45,6 +45,9 @@ class LeadsTable extends Table
         $this->hasOne('Clients', [
             'foreignKey' => 'leads_id',
         ]);
+        $this->hasMany('LeadOffers', [
+            'foreignKey' => 'leads_id',
+        ]);
 
         $this->addBehavior('Timestamp');
     }
