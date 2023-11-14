@@ -51,13 +51,16 @@ class LeadsTable extends Table
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
+            'dependent' => true,
             'joinType' => 'INNER',
         ]);
         $this->hasOne('LeadOffers', [
             'foreignKey' => 'lead_id',
+            'dependent' => true,
         ]);
         $this->hasMany('Clients', [
             'foreignKey' => 'lead_id',
+            'dependent' => true,
         ]);
     }
 

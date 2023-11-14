@@ -49,6 +49,7 @@ class ClientsTable extends Table
 
         $this->belongsTo('Leads', [
             'foreignKey' => 'lead_id',
+            'dependent' => true,
             'joinType' => 'INNER',
         ]);
     }
