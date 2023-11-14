@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('leads_id') ?></th>
+                    <th><?= $this->Paginator->sort('lead_id') ?></th>
                     <th><?= $this->Paginator->sort('marca') ?></th>
                     <th><?= $this->Paginator->sort('modello') ?></th>
                     <th><?= $this->Paginator->sort('km') ?></th>
@@ -25,7 +25,7 @@
                 <?php foreach ($leadOffers as $leadOffer): ?>
                 <tr>
                     <td><?= $this->Number->format($leadOffer->id) ?></td>
-                    <td><?= $leadOffer->has('lead') ? $this->Html->link($leadOffer->lead->id, ['controller' => 'Leads', 'action' => 'view', $leadOffer->lead->id]) : '' ?></td>
+                    <td><?= $this->Number->format($leadOffer->lead_id) ?></td>
                     <td><?= h($leadOffer->marca) ?></td>
                     <td><?= h($leadOffer->modello) ?></td>
                     <td><?= $leadOffer->km === null ? '' : $this->Number->format($leadOffer->km) ?></td>

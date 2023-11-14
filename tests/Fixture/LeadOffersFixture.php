@@ -20,12 +20,12 @@ class LeadOffersFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'leads_id' => 1,
+                'lead_id' => 1,
                 'marca' => 'Lorem ipsum dolor sit amet',
                 'modello' => 'Lorem ipsum dolor sit amet',
                 'km' => 1,
-                'created' => '2023-11-08 12:21:22',
-                'modified' => '2023-11-08 12:21:22',
+                'created' => '2023-11-14 15:37:23',
+                'modified' => '2023-11-14 15:37:23',
             ],
         ];
         parent::init();

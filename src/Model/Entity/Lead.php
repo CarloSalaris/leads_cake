@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Lead Entity
  *
  * @property int $id
- * @property int $users_id
+ * @property int $user_id
  * @property string|null $ragione_sociale
  * @property string|null $email
  * @property string|null $telefono
@@ -17,6 +17,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
+ * @property \App\Model\Entity\Client $client
+ * @property \App\Model\Entity\LeadOffer[] $lead_offers
  * @property \App\Model\Entity\User $user
  */
 class Lead extends Entity
@@ -31,13 +33,15 @@ class Lead extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'users_id' => true,
+        'user_id' => true,
         'ragione_sociale' => true,
         'email' => true,
         'telefono' => true,
         'tipo_soggetto' => true,
         'created' => true,
         'modified' => true,
+        'client' => true,
+        'lead_offers' => true,
         'user' => true,
     ];
 }

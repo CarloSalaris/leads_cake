@@ -48,7 +48,7 @@ class ClientsTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Leads', [
-            'foreignKey' => 'leads_id',
+            'foreignKey' => 'lead_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -62,9 +62,8 @@ class ClientsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('leads_id')
-            ->notEmptyString('leads_id')
-            ->add('leads_id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->integer('lead_id')
+            ->notEmptyString('lead_id');
 
         $validator
             ->scalar('ragione_sociale')
@@ -93,7 +92,7 @@ class ClientsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('leads_id', 'Leads'), ['errorField' => 'leads_id']);
+        $rules->add($rules->existsIn('lead_id', 'Leads'), ['errorField' => 'lead_id']);
 
         return $rules;
     }

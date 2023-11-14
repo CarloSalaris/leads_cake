@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \App\Model\Table\LeadsTable&\Cake\ORM\Association\HasMany $Leads
+ *
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
@@ -42,7 +44,7 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->hasMany('Leads', [
-            'foreignKey' => 'users_id',
+            'foreignKey' => 'user_id',
         ]);
     }
 

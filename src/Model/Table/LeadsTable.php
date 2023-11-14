@@ -12,6 +12,8 @@ use Cake\Validation\Validator;
  * Leads Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\LeadOffersTable&\Cake\ORM\Association\HasOne $LeadOffers
+ * @property \App\Model\Table\ClientsTable&\Cake\ORM\Association\HasMany $Clients
  *
  * @method \App\Model\Entity\Lead newEmptyEntity()
  * @method \App\Model\Entity\Lead newEntity(array $data, array $options = [])
@@ -47,33 +49,17 @@ class LeadsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasOne('Clients', [
-            'foreignKey' => 'leads_id',
-        ]);
-        $this->hasMany('LeadOffers', [
-            'foreignKey' => 'leads_id',
-        ]);
         $this->belongsTo('Users', [
-            'foreignKey' => 'users_id',
+            'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasOne('LeadOffers', [
+            'foreignKey' => 'lead_id',
+        ]);
+        $this->hasMany('Clients', [
+            'foreignKey' => 'lead_id',
+        ]);
     }
-
-    public function findPrivato(\Cake\ORM\Query $query, array $options): \Cake\ORM\Query
-    {
-        return $query->where(['tipo_soggetto' => 'P']);
-    }
-
-    public function findGiuridico(\Cake\ORM\Query $query, array $options): \Cake\ORM\Query
-    {
-        return $query->where(['tipo_soggetto' => 'G']);
-    }
-
-    public function findNotClient(\Cake\ORM\Query $query, array $options): \Cake\ORM\Query
-    {
-        return $query->where(['Clients.id IS NULL']);
-    }
-
 
     /**
      * Default validation rules.
@@ -84,8 +70,8 @@ class LeadsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('users_id')
-            ->notEmptyString('users_id');
+            ->integer('user_id')
+            ->notEmptyString('user_id');
 
         $validator
             ->scalar('ragione_sociale')
@@ -118,7 +104,7 @@ class LeadsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('users_id', 'Users'), ['errorField' => 'users_id']);
+        $rules->add($rules->existsIn('user_id', 'Users'), ['errorField' => 'user_id']);
 
         return $rules;
     }

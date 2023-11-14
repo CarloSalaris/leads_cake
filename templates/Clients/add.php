@@ -18,7 +18,7 @@
             <fieldset>
                 <legend><?= __('Add Client') ?></legend>
                 <?php
-                    echo $this->Form->control('leads_id', ['options' => $leads]);
+                    echo $this->Form->control('lead_id');
                     echo $this->Form->control('ragione_sociale');
                     echo $this->Form->control('p_iva');
                     echo $this->Form->control('codice_fiscale');

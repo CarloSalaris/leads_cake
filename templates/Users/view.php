@@ -38,7 +38,7 @@
                     <table>
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Users Id') ?></th>
+                            <th><?= __('User Id') ?></th>
                             <th><?= __('Ragione Sociale') ?></th>
                             <th><?= __('Email') ?></th>
                             <th><?= __('Telefono') ?></th>
@@ -50,7 +50,7 @@
                         <?php foreach ($user->leads as $leads) : ?>
                         <tr>
                             <td><?= h($leads->id) ?></td>
-                            <td><?= h($leads->users_id) ?></td>
+                            <td><?= h($leads->user_id) ?></td>
                             <td><?= h($leads->ragione_sociale) ?></td>
                             <td><?= h($leads->email) ?></td>
                             <td><?= h($leads->telefono) ?></td>

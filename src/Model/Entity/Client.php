@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Client Entity
  *
  * @property int $id
- * @property int $leads_id
+ * @property int $lead_id
  * @property string|null $ragione_sociale
  * @property string|null $p_iva
  * @property string|null $codice_fiscale
@@ -30,7 +30,7 @@ class Client extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'leads_id' => true,
+        'lead_id' => true,
         'ragione_sociale' => true,
         'p_iva' => true,
         'codice_fiscale' => true,

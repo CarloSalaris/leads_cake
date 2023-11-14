@@ -20,13 +20,13 @@ class LeadsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'users_id' => 1,
+                'user_id' => 1,
                 'ragione_sociale' => 'Lorem ipsum dolor sit amet',
                 'email' => 'Lorem ipsum dolor sit amet',
                 'telefono' => 'Lorem ips',
                 'tipo_soggetto' => '',
-                'created' => '2023-11-14 09:18:06',
-                'modified' => '2023-11-14 09:18:06',
+                'created' => '2023-11-14 15:36:06',
+                'modified' => '2023-11-14 15:36:06',
             ],
         ];
         parent::init();

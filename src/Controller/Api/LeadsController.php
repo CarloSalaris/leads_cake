@@ -24,8 +24,9 @@ class LeadsController extends AppController
         $this->request->allowMethod(["get"]);
 
         $leads = $this->Leads
-        ->find('giuridico')
-        ->find('notClient')
+        ->find()
+        /* ->find('giuridico')
+        ->find('notClient') */
         ->contain(['Users', 'Clients', 'LeadOffers'])
         ->toList();
 

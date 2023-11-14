@@ -36,7 +36,7 @@ class LeadsController extends AppController
     public function view($id = null)
     {
         $lead = $this->Leads->get($id, [
-            'contain' => ['Users'],
+            'contain' => ['Users', 'Clients', 'LeadOffers'],
         ]);
 
         $this->set(compact('lead'));

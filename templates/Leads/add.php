@@ -18,7 +18,7 @@
             <fieldset>
                 <legend><?= __('Add Lead') ?></legend>
                 <?php
-                    echo $this->Form->control('users_id', ['options' => $users]);
+                    echo $this->Form->control('user_id');
                     echo $this->Form->control('ragione_sociale');
                     echo $this->Form->control('email');
                     echo $this->Form->control('telefono');

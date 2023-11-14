@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * LeadOffer Entity
  *
  * @property int $id
- * @property int $leads_id
+ * @property int $lead_id
  * @property string|null $marca
  * @property string|null $modello
  * @property int|null $km
@@ -30,7 +30,7 @@ class LeadOffer extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'leads_id' => true,
+        'lead_id' => true,
         'marca' => true,
         'modello' => true,
         'km' => true,

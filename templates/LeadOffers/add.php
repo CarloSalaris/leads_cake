@@ -18,7 +18,7 @@
             <fieldset>
                 <legend><?= __('Add Lead Offer') ?></legend>
                 <?php
-                    echo $this->Form->control('leads_id', ['options' => $leads]);
+                    echo $this->Form->control('lead_id');
                     echo $this->Form->control('marca');
                     echo $this->Form->control('modello');
                     echo $this->Form->control('km');

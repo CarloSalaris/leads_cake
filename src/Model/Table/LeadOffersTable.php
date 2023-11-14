@@ -48,7 +48,7 @@ class LeadOffersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Leads', [
-            'foreignKey' => 'leads_id',
+            'foreignKey' => 'lead_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -62,8 +62,9 @@ class LeadOffersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('leads_id')
-            ->notEmptyString('leads_id');
+            ->integer('lead_id')
+            ->notEmptyString('lead_id')
+            ->add('lead_id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('marca')
@@ -91,7 +92,7 @@ class LeadOffersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('leads_id', 'Leads'), ['errorField' => 'leads_id']);
+        $rules->add($rules->existsIn('lead_id', 'Leads'), ['errorField' => 'lead_id']);
 
         return $rules;
     }

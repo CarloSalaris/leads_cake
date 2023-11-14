@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('leads_id') ?></th>
+                    <th><?= $this->Paginator->sort('lead_id') ?></th>
                     <th><?= $this->Paginator->sort('ragione_sociale') ?></th>
                     <th><?= $this->Paginator->sort('p_iva') ?></th>
                     <th><?= $this->Paginator->sort('codice_fiscale') ?></th>
@@ -25,7 +25,7 @@
                 <?php foreach ($clients as $client): ?>
                 <tr>
                     <td><?= $this->Number->format($client->id) ?></td>
-                    <td><?= $client->has('lead') ? $this->Html->link($client->lead->id, ['controller' => 'Leads', 'action' => 'view', $client->lead->id]) : '' ?></td>
+                    <td><?= $this->Number->format($client->lead_id) ?></td>
                     <td><?= h($client->ragione_sociale) ?></td>
                     <td><?= h($client->p_iva) ?></td>
                     <td><?= h($client->codice_fiscale) ?></td>

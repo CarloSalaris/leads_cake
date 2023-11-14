@@ -19,10 +19,6 @@
             <h3><?= h($client->id) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Lead') ?></th>
-                    <td><?= $client->has('lead') ? $this->Html->link($client->lead->id, ['controller' => 'Leads', 'action' => 'view', $client->lead->id]) : '' ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Ragione Sociale') ?></th>
                     <td><?= h($client->ragione_sociale) ?></td>
                 </tr>
@@ -37,6 +33,10 @@
                 <tr>
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($client->id) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Lead Id') ?></th>
+                    <td><?= $this->Number->format($client->lead_id) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Created') ?></th>
