@@ -95,7 +95,8 @@ class LeadsTable extends Table
         $validator
             ->scalar('tipo_soggetto')
             ->maxLength('tipo_soggetto', 1)
-            ->allowEmptyString('tipo_soggetto');
+            ->allowEmptyString('tipo_soggetto')
+            ->inList('tipo_soggetto', ['P', 'G', 'D'], 'Please enter a valid tipo_soggetto (P, G, or D).');
 
         return $validator;
     }
