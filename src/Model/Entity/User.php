@@ -11,6 +11,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $username
  * @property string $role
+ *
+ * @property \App\Model\Entity\Lead[] $leads
  */
 class User extends Entity
 {
@@ -26,5 +28,6 @@ class User extends Entity
     protected $_accessible = [
         'username' => true,
         'role' => true,
+        'leads' => true,
     ];
 }

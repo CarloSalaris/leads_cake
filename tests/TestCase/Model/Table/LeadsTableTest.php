@@ -25,6 +25,7 @@ class LeadsTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Leads',
+        'app.Users',
     ];
 
     /**
@@ -58,6 +59,17 @@ class LeadsTableTest extends TestCase
      * @uses \App\Model\Table\LeadsTable::validationDefault()
      */
     public function testValidationDefault(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     * @uses \App\Model\Table\LeadsTable::buildRules()
+     */
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

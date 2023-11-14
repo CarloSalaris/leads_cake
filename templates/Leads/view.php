@@ -19,6 +19,10 @@
             <h3><?= h($lead->id) ?></h3>
             <table>
                 <tr>
+                    <th><?= __('User') ?></th>
+                    <td><?= $lead->has('user') ? $this->Html->link($lead->user->username, ['controller' => 'Users', 'action' => 'view', $lead->user->id]) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Ragione Sociale') ?></th>
                     <td><?= h($lead->ragione_sociale) ?></td>
                 </tr>

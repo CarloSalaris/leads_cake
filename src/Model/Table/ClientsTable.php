@@ -63,7 +63,8 @@ class ClientsTable extends Table
     {
         $validator
             ->integer('leads_id')
-            ->notEmptyString('leads_id');
+            ->notEmptyString('leads_id')
+            ->add('leads_id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('ragione_sociale')

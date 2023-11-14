@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Leads Model
  *
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ *
  * @method \App\Model\Entity\Lead newEmptyEntity()
  * @method \App\Model\Entity\Lead newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Lead[] newEntities(array $data, array $options = [])
@@ -42,18 +44,19 @@ class LeadsTable extends Table
         $this->setTable('leads');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
+
         $this->hasOne('Clients', [
             'foreignKey' => 'leads_id',
         ]);
         $this->hasMany('LeadOffers', [
             'foreignKey' => 'leads_id',
         ]);
-        /* $this->belongsTo('Users', [
+        $this->belongsTo('Users', [
             'foreignKey' => 'users_id',
             'joinType' => 'INNER',
-        ]); */
-
-        $this->addBehavior('Timestamp');
+        ]);
     }
 
     /**
@@ -64,11 +67,10 @@ class LeadsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        /* $validator
+        $validator
             ->integer('users_id')
-            ->notEmptyString('users_id')
-            ->add('users_id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
- */
+            ->notEmptyString('users_id');
+
         $validator
             ->scalar('ragione_sociale')
             ->maxLength('ragione_sociale', 255)
@@ -89,5 +91,19 @@ class LeadsTable extends Table
             ->allowEmptyString('tipo_soggetto');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn('users_id', 'Users'), ['errorField' => 'users_id']);
+
+        return $rules;
     }
 }

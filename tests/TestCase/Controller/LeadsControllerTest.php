@@ -23,6 +23,7 @@ class LeadsControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Leads',
+        'app.Users',
     ];
 
     /**
