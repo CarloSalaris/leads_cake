@@ -59,6 +59,11 @@ class LeadsTable extends Table
         ]);
     }
 
+    public function findPrivato(\Cake\ORM\Query $query, array $options): \Cake\ORM\Query
+    {
+        return $query->where(['tipo_soggetto' => 'P']);
+    }
+
     /**
      * Default validation rules.
      *
