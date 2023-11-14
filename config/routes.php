@@ -100,6 +100,12 @@ return function (RouteBuilder $routes): void {
         // Parse specified extensions from URLs
         $builder->setExtensions(['json', 'xml']);
 
+        // Users
+        $builder->connect("/users/index", ["controller" => "Users", "action" => "listUsers"]);
+        $builder->connect("/users/add", ["controller" => "Users", "action" => "addUser"]);
+        $builder->connect("/users/update/{id}", ["controller" => "Users", "action" => "updateUser"])->setPass(["id"]);
+        $builder->connect("/users/delete/{id}", ["controller" => "Users", "action" => "deleteUser"])->setPass(["id"]);
+
         // Leads
         $builder->connect("/leads/index", ["controller" => "Leads", "action" => "listLeads"]);
         $builder->connect("/leads/add", ["controller" => "Leads", "action" => "addLead"]);
