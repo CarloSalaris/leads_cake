@@ -64,6 +64,17 @@ class LeadsTable extends Table
         return $query->where(['tipo_soggetto' => 'P']);
     }
 
+    public function findGiuridico(\Cake\ORM\Query $query, array $options): \Cake\ORM\Query
+    {
+        return $query->where(['tipo_soggetto' => 'G']);
+    }
+
+    public function findNotClient(\Cake\ORM\Query $query, array $options): \Cake\ORM\Query
+    {
+        return $query->where(['Clients.id IS NULL']);
+    }
+
+
     /**
      * Default validation rules.
      *

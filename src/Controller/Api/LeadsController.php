@@ -23,14 +23,16 @@ class LeadsController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $leads = $this->Leads->find('privato')
+        $leads = $this->Leads
+        ->find('giuridico')
+        ->find('notClient')
         ->contain(['Users', 'Clients', 'LeadOffers'])
         ->toList();
 
         $this->set([
             "status" => true,
             "message" => "Leads list",
-            "data" => $leads
+            "data" => $leads,
         ]);
 
         $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
