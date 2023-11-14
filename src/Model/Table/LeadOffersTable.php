@@ -50,7 +50,7 @@ class LeadOffersTable extends Table
         $this->belongsTo('Leads', [
             'foreignKey' => 'lead_id',
             'dependent' => true,
-            'joinType' => 'INNER',
+            /* 'joinType' => 'INNER', */
         ]);
     }
 
@@ -64,8 +64,7 @@ class LeadOffersTable extends Table
     {
         $validator
             ->integer('lead_id')
-            ->notEmptyString('lead_id')
-            ->add('lead_id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->notEmptyString('lead_id');
 
         $validator
             ->scalar('marca')

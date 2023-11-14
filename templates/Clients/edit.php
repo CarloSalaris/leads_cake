@@ -2,7 +2,6 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Client $client
- * @var string[]|\Cake\Collection\CollectionInterface $leads
  */
 ?>
 <div class="row">
@@ -23,7 +22,6 @@
             <fieldset>
                 <legend><?= __('Edit Client') ?></legend>
                 <?php
-                    echo $this->Form->control('lead_id');
                     echo $this->Form->control('ragione_sociale');
                     echo $this->Form->control('p_iva');
                     echo $this->Form->control('codice_fiscale');

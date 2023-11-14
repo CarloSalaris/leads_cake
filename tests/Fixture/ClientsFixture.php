@@ -20,12 +20,11 @@ class ClientsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'lead_id' => 1,
                 'ragione_sociale' => 'Lorem ipsum dolor sit amet',
                 'p_iva' => '',
                 'codice_fiscale' => '',
-                'created' => '2023-11-14 15:36:32',
-                'modified' => '2023-11-14 15:36:32',
+                'created' => '2023-11-14 16:53:19',
+                'modified' => '2023-11-14 16:53:19',
             ],
         ];
         parent::init();

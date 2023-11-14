@@ -13,6 +13,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('user_id') ?></th>
+                    <th><?= $this->Paginator->sort('client_id') ?></th>
                     <th><?= $this->Paginator->sort('ragione_sociale') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('telefono') ?></th>
@@ -26,7 +27,8 @@
                 <?php foreach ($leads as $lead): ?>
                 <tr>
                     <td><?= $this->Number->format($lead->id) ?></td>
-                    <td><?= $this->Number->format($lead->user_id) ?></td>
+                    <td><?= $lead->has('user') ? $this->Html->link($lead->user->username, ['controller' => 'Users', 'action' => 'view', $lead->user->id]) : '' ?></td>
+                    <td><?= $lead->has('client') ? $this->Html->link($lead->client->id, ['controller' => 'Clients', 'action' => 'view', $lead->client->id]) : '' ?></td>
                     <td><?= h($lead->ragione_sociale) ?></td>
                     <td><?= h($lead->email) ?></td>
                     <td><?= h($lead->telefono) ?></td>

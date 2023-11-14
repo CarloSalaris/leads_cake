@@ -21,12 +21,13 @@ class LeadsFixture extends TestFixture
             [
                 'id' => 1,
                 'user_id' => 1,
+                'client_id' => 1,
                 'ragione_sociale' => 'Lorem ipsum dolor sit amet',
                 'email' => 'Lorem ipsum dolor sit amet',
                 'telefono' => 'Lorem ips',
                 'tipo_soggetto' => '',
-                'created' => '2023-11-14 15:36:06',
-                'modified' => '2023-11-14 15:36:06',
+                'created' => '2023-11-14 17:17:41',
+                'modified' => '2023-11-14 17:17:41',
             ],
         ];
         parent::init();

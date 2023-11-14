@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Lead $lead
  * @var string[]|\Cake\Collection\CollectionInterface $users
+ * @var string[]|\Cake\Collection\CollectionInterface $clients
  */
 ?>
 <div class="row">
@@ -23,7 +24,8 @@
             <fieldset>
                 <legend><?= __('Edit Lead') ?></legend>
                 <?php
-                    echo $this->Form->control('user_id');
+                    echo $this->Form->control('user_id', ['options' => $users]);
+                    echo $this->Form->control('client_id', ['options' => $clients, 'empty' => true]);
                     echo $this->Form->control('ragione_sociale');
                     echo $this->Form->control('email');
                     echo $this->Form->control('telefono');

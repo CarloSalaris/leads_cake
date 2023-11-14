@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Clients Model
  *
- * @property \App\Model\Table\LeadsTable&\Cake\ORM\Association\BelongsTo $Leads
+ * @property \App\Model\Table\LeadsTable&\Cake\ORM\Association\HasMany $Leads
  *
  * @method \App\Model\Entity\Client newEmptyEntity()
  * @method \App\Model\Entity\Client newEntity(array $data, array $options = [])
@@ -47,10 +47,8 @@ class ClientsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Leads', [
-            'foreignKey' => 'lead_id',
-            'dependent' => true,
-            'joinType' => 'INNER',
+        $this->hasMany('Leads', [
+            'foreignKey' => 'client_id',
         ]);
     }
 
@@ -62,10 +60,6 @@ class ClientsTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->integer('lead_id')
-            ->notEmptyString('lead_id');
-
         $validator
             ->scalar('ragione_sociale')
             ->maxLength('ragione_sociale', 255)
@@ -82,19 +76,5 @@ class ClientsTable extends Table
             ->allowEmptyString('codice_fiscale');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->existsIn('lead_id', 'Leads'), ['errorField' => 'lead_id']);
-
-        return $rules;
     }
 }

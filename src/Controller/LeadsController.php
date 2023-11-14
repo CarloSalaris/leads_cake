@@ -19,7 +19,7 @@ class LeadsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users'],
+            'contain' => ['Users', 'Clients'],
         ];
         $leads = $this->paginate($this->Leads);
 
@@ -60,7 +60,8 @@ class LeadsController extends AppController
             $this->Flash->error(__('The lead could not be saved. Please, try again.'));
         }
         $users = $this->Leads->Users->find('list', ['limit' => 200])->all();
-        $this->set(compact('lead', 'users'));
+        $clients = $this->Leads->Clients->find('list', ['limit' => 200])->all();
+        $this->set(compact('lead', 'users', 'clients'));
     }
 
     /**
@@ -85,7 +86,8 @@ class LeadsController extends AppController
             $this->Flash->error(__('The lead could not be saved. Please, try again.'));
         }
         $users = $this->Leads->Users->find('list', ['limit' => 200])->all();
-        $this->set(compact('lead', 'users'));
+        $clients = $this->Leads->Clients->find('list', ['limit' => 200])->all();
+        $this->set(compact('lead', 'users', 'clients'));
     }
 
     /**

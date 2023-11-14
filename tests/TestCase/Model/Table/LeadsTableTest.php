@@ -25,9 +25,9 @@ class LeadsTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Leads',
+        'app.Users',
         'app.Clients',
         'app.LeadOffers',
-        'app.Users',
     ];
 
     /**
@@ -52,39 +52,6 @@ class LeadsTableTest extends TestCase
         unset($this->Leads);
 
         parent::tearDown();
-    }
-
-    /**
-     * Test findPrivato method
-     *
-     * @return void
-     * @uses \App\Model\Table\LeadsTable::findPrivato()
-     */
-    public function testFindPrivato(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findGiuridico method
-     *
-     * @return void
-     * @uses \App\Model\Table\LeadsTable::findGiuridico()
-     */
-    public function testFindGiuridico(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findNotClient method
-     *
-     * @return void
-     * @uses \App\Model\Table\LeadsTable::findNotClient()
-     */
-    public function testFindNotClient(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
     }
 
     /**

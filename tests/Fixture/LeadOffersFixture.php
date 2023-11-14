@@ -24,8 +24,8 @@ class LeadOffersFixture extends TestFixture
                 'marca' => 'Lorem ipsum dolor sit amet',
                 'modello' => 'Lorem ipsum dolor sit amet',
                 'km' => 1,
-                'created' => '2023-11-14 15:37:23',
-                'modified' => '2023-11-14 15:37:23',
+                'created' => '2023-11-14 17:17:56',
+                'modified' => '2023-11-14 17:17:56',
             ],
         ];
         parent::init();

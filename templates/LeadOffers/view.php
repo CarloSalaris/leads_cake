@@ -19,6 +19,10 @@
             <h3><?= h($leadOffer->id) ?></h3>
             <table>
                 <tr>
+                    <th><?= __('Lead') ?></th>
+                    <td><?= $leadOffer->has('lead') ? $this->Html->link($leadOffer->lead->id, ['controller' => 'Leads', 'action' => 'view', $leadOffer->lead->id]) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Marca') ?></th>
                     <td><?= h($leadOffer->marca) ?></td>
                 </tr>
@@ -29,10 +33,6 @@
                 <tr>
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($leadOffer->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Lead Id') ?></th>
-                    <td><?= $this->Number->format($leadOffer->lead_id) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Km') ?></th>

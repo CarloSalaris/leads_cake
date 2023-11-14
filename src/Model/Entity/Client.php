@@ -9,14 +9,13 @@ use Cake\ORM\Entity;
  * Client Entity
  *
  * @property int $id
- * @property int $lead_id
  * @property string|null $ragione_sociale
  * @property string|null $p_iva
  * @property string|null $codice_fiscale
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
- * @property \App\Model\Entity\Lead $lead
+ * @property \App\Model\Entity\Lead[] $leads
  */
 class Client extends Entity
 {
@@ -30,12 +29,11 @@ class Client extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'lead_id' => true,
         'ragione_sociale' => true,
         'p_iva' => true,
         'codice_fiscale' => true,
         'created' => true,
         'modified' => true,
-        'lead' => true,
+        'leads' => true,
     ];
 }

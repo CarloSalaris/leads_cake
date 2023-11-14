@@ -12,8 +12,8 @@ use Cake\Validation\Validator;
  * Leads Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\ClientsTable&\Cake\ORM\Association\BelongsTo $Clients
  * @property \App\Model\Table\LeadOffersTable&\Cake\ORM\Association\HasOne $LeadOffers
- * @property \App\Model\Table\ClientsTable&\Cake\ORM\Association\HasMany $Clients
  *
  * @method \App\Model\Entity\Lead newEmptyEntity()
  * @method \App\Model\Entity\Lead newEntity(array $data, array $options = [])
@@ -51,14 +51,12 @@ class LeadsTable extends Table
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
-            'dependent' => true,
             'joinType' => 'INNER',
         ]);
-        $this->hasOne('LeadOffers', [
-            'foreignKey' => 'lead_id',
-            'dependent' => true,
+        $this->belongsTo('Clients', [
+            'foreignKey' => 'client_id',
         ]);
-        $this->hasMany('Clients', [
+        $this->hasMany('LeadOffers', [
             'foreignKey' => 'lead_id',
             'dependent' => true,
         ]);
@@ -75,6 +73,10 @@ class LeadsTable extends Table
         $validator
             ->integer('user_id')
             ->notEmptyString('user_id');
+
+        $validator
+            ->integer('client_id')
+            ->allowEmptyString('client_id');
 
         $validator
             ->scalar('ragione_sociale')
@@ -108,6 +110,7 @@ class LeadsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('user_id', 'Users'), ['errorField' => 'user_id']);
+        $rules->add($rules->existsIn('client_id', 'Clients'), ['errorField' => 'client_id']);
 
         return $rules;
     }
