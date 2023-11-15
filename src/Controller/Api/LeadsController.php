@@ -6,8 +6,10 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 
 /**
- * Lead Controller
+ * Leads Controller
  *
+ * @property \App\Model\Table\LeadsTable $Leads
+ * @method \App\Model\Entity\Lead[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class LeadsController extends AppController
 {
@@ -19,16 +21,24 @@ class LeadsController extends AppController
     }
 
     // List leads api
-    public function listLeads()
+    public function index()
     {
         $this->request->allowMethod(["get"]);
 
-        $leads = $this->Leads
+        $q = $this->Leads
         ->find()
-        /* ->find('giuridico')
-        ->find('notClient') */
-        ->contain(['Users', 'Clients', 'LeadOffers'])
-        ->toList();
+        ->contain(['Users', 'Clients', 'LeadOffers']);
+
+        if ($this->request->getQuery('notClient')) {
+            $q->find('notClient');
+        }
+        if ($this->request->getQuery('giuridico')) {
+            $q->find('giuridico');
+        }
+        if ($this->request->getQuery('privato')) {
+            $q->find('privato');
+        }
+        $leads = $q->toList();
 
         $this->set([
             "status" => true,
@@ -40,7 +50,7 @@ class LeadsController extends AppController
     }
 
     // Add lead api
-    public function addLead()
+    public function add()
     {
         $this->request->allowMethod(["post"]);
 
@@ -53,7 +63,7 @@ class LeadsController extends AppController
             $message = "Email address is required";
         } else {
             // Check if email address already exists
-            $existingLead = $this->Leads->findByEmail($formData['email'])->first();
+           /*  $existingLead = $this->Leads->findByEmail($formData['email'])->first(); */
 
             if (!empty($existingLead)) {
                 // already exists
@@ -86,7 +96,7 @@ class LeadsController extends AppController
     }
 
     // Update lead
-    public function updateLead()
+    public function edit()
     {
         $this->request->allowMethod(["put", "post"]);
 
@@ -125,7 +135,7 @@ class LeadsController extends AppController
     }
 
     // Delete lead api
-    public function deleteLead()
+    public function delete()
     {
         $this->request->allowMethod(["delete"]);
 

@@ -101,6 +101,21 @@ class LeadsTable extends Table
         return $validator;
     }
 
+    public function findPrivato(Query $query, array $options): Query
+    {
+        return $query->where(['tipo_soggetto' => 'P']);
+    }
+
+    public function findGiuridico(Query $query, array $options): Query
+    {
+        return $query->where(['tipo_soggetto' => 'G']);
+    }
+
+    public function findNotClient(Query $query, array $options): Query
+    {
+        return $query->where(['Clients.id IS NULL']);
+    }
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -115,4 +130,6 @@ class LeadsTable extends Table
 
         return $rules;
     }
+
+
 }
