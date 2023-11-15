@@ -8,7 +8,8 @@ use App\Controller\AppController;
 /**
  * LeadOffers Controller
  *
- * @property \App\Model\Table\LeadOffersTable $leadOffers
+ * @property \App\Model\Table\LeadOffersTable $LeadOffers
+ * @method \App\Model\Entity\LeadOffer[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class LeadOffersController extends AppController
 {
@@ -20,7 +21,7 @@ class LeadOffersController extends AppController
     }
 
     // List LeadOffers api
-    public function listLeadOffers()
+    public function index()
     {
         $this->request->allowMethod(["get"]);
 
@@ -38,7 +39,7 @@ class LeadOffersController extends AppController
     }
 
     // Add LeadOffer api
-    public function addLeadOffer()
+    public function add()
     {
         $this->request->allowMethod(["post"]);
 
@@ -69,7 +70,7 @@ class LeadOffersController extends AppController
     }
 
     // Update LeadOffer
-    public function updateLeadOffer()
+    public function edit()
     {
         $this->request->allowMethod(["put", "post"]);
 
@@ -108,7 +109,7 @@ class LeadOffersController extends AppController
     }
 
     // Delete LeadOffer api
-    public function deleteLeadOffer()
+    public function delete()
     {
         $this->request->allowMethod(["delete"]);
 

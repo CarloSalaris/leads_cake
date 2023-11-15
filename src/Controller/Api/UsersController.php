@@ -8,7 +8,8 @@ use App\Controller\AppController;
 /**
  * Users Controller
  *
- * @property \App\Model\Table\UsersTable $users
+ * @property \App\Model\Table\UsersTable $Users
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
@@ -20,7 +21,7 @@ class UsersController extends AppController
     }
 
     // List Users api
-    public function listUsers()
+    public function index()
     {
         $this->request->allowMethod(["get"]);
 
@@ -38,7 +39,7 @@ class UsersController extends AppController
     }
 
     // Add User api
-    public function addUser()
+    public function add()
     {
         $this->request->allowMethod(["post"]);
 
@@ -69,7 +70,7 @@ class UsersController extends AppController
     }
 
     // Update User
-    public function updateUser()
+    public function edit()
     {
         $this->request->allowMethod(["put", "post"]);
 
@@ -108,7 +109,7 @@ class UsersController extends AppController
     }
 
     // Delete User api
-    public function deleteUser()
+    public function delete()
     {
         $this->request->allowMethod(["delete"]);
 

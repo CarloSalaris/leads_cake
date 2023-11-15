@@ -20,7 +20,7 @@ class ClientsController extends AppController
     }
 
     // List clients api
-    public function listClients()
+    public function index()
     {
         $this->request->allowMethod(["get"]);
 
@@ -38,7 +38,7 @@ class ClientsController extends AppController
     }
 
     // Add Client api
-    public function addClient()
+    public function add()
     {
         $this->request->allowMethod(["post"]);
 
@@ -69,7 +69,7 @@ class ClientsController extends AppController
     }
 
     // Update Client
-    public function updateClient()
+    public function edit()
     {
         $this->request->allowMethod(["put", "post"]);
 
@@ -108,7 +108,7 @@ class ClientsController extends AppController
     }
 
     // Delete Client api
-    public function deleteClient()
+    public function delete()
     {
         $this->request->allowMethod(["delete"]);
 
