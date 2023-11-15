@@ -60,30 +60,21 @@ class LeadsController extends AppController
         // Check if email address is provided
         if (empty($formData['email'])) {
             $status = false;
-            $message = "Email address is required";
+            throw new \Exception("Email address is required");
         } else {
-            // Check if email address already exists
-           /*  $existingLead = $this->Leads->findByEmail($formData['email'])->first(); */
+            // insert new lead
+            $element = $this->Leads->newEmptyEntity();
 
-            if (!empty($existingLead)) {
-                // already exists
-                $status = false;
-                $message = "Email address already exists";
+            $element = $this->Leads->patchEntity($element, $formData);
+
+            if ($this->Leads->save($element)) {
+                // success response
+                $status = true;
+                $message = "Element has been created";
             } else {
-                // insert new lead
-                $leadsObject = $this->Leads->newEmptyEntity();
-
-                $leadsObject = $this->Leads->patchEntity($leadsObject, $formData);
-
-                if ($this->Leads->save($leadsObject)) {
-                    // success response
-                    $status = true;
-                    $message = "Lead has been created";
-                } else {
-                    // error response
-                    $status = false;
-                    $message = "Failed to create lead";
-                }
+                // error response
+                $status = false;
+                $message = "Failed to create element";
             }
         }
 
@@ -96,34 +87,34 @@ class LeadsController extends AppController
     }
 
     // Update lead
-    public function edit()
+    public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $emp_id = $this->request->getParam("id");
+        $Info = $this->request->getData();
 
-        $leadInfo = $this->request->getData();
+        /* $id = $this->request->getParam("id"); */
 
         // lead check
-        $lead = $this->Leads->get($emp_id);
+        $element = $this->Leads->get($id);
 
-        if (!empty($lead)) {
+        if (!empty($element)) {
             // leads exists
-            $lead = $this->Leads->patchEntity($lead, $leadInfo);
+            $element = $this->Leads->patchEntity($element, $Info);
 
-            if ($this->Leads->save($lead)) {
+            if ($this->Leads->save($element)) {
                 // success response
                 $status = true;
-                $message = "Lead has been updated";
+                $message = "Element has been updated";
             } else {
                 // error response
                 $status = false;
-                $message = "Failed to update lead";
+                $message = "Failed to update element";
             }
         } else {
             // lead not found
             $status = false;
-            $message = "Lead Not Found";
+            $message = "Element Not Found";
         }
 
         $this->set([
@@ -135,29 +126,29 @@ class LeadsController extends AppController
     }
 
     // Delete lead api
-    public function delete()
+    public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $emp_id = $this->request->getParam("id");
+        /* $emp_id = $this->request->getParam("id"); */
 
-        $lead = $this->Leads->get($emp_id);
+        $element = $this->Leads->get($id);
 
-        if (!empty($lead)) {
+        if (!empty($element)) {
             // lead found
-            if ($this->Leads->delete($lead)) {
+            if ($this->Leads->delete($element)) {
                 // lead deleted
                 $status = true;
-                $message = "Lead has been deleted";
+                $message = "Element has been deleted";
             } else {
                 // failed to delete
                 $status = false;
-                $message = "Failed to delete lead";
+                $message = "Failed to delete element";
             }
         } else {
             // not found
             $status = false;
-            $message = "Lead doesn't exists";
+            $message = "Element doesn't exists";
         }
 
         $this->set([
