@@ -100,30 +100,6 @@ return function (RouteBuilder $routes): void {
         // Parse specified extensions from URLs
         $builder->setExtensions(['json', 'xml']);
 
-        // Users
-        /* $builder->connect("/users/index", ["controller" => "Users", "action" => "listUsers"]);
-        $builder->connect("/users/add", ["controller" => "Users", "action" => "addUser"]);
-        $builder->connect("/users/update/{id}", ["controller" => "Users", "action" => "updateUser"])->setPass(["id"]);
-        $builder->connect("/users/delete/{id}", ["controller" => "Users", "action" => "deleteUser"])->setPass(["id"]); */
-
-        // Leads
-        /* $builder->connect("/leads/index", ["controller" => "Leads", "action" => "listLeads"]);
-        $builder->connect("/leads/add", ["controller" => "Leads", "action" => "addLead"]);
-        $builder->connect("/leads/update/{id}", ["controller" => "Leads", "action" => "updateLead"])->setPass(["id"]);
-        $builder->connect("/leads/delete/{id}", ["controller" => "Leads", "action" => "deleteLead"])->setPass(["id"]); */
-
-        // Clients
-        /* $builder->connect("/clients/index", ["controller" => "Clients", "action" => "listClients"]);
-        $builder->connect("/clients/add", ["controller" => "Clients", "action" => "addClient"]);
-        $builder->connect("/clients/update/{id}", ["controller" => "Clients", "action" => "updateClient"])->setPass(["id"]);
-        $builder->connect("/clients/delete/{id}", ["controller" => "Clients", "action" => "deleteClient"])->setPass(["id"]); */
-
-        // LeadOffers
-        /* $builder->connect("/lead_offers/index", ["controller" => "LeadOffers", "action" => "listLeadOffers"]);
-        $builder->connect("/lead_offers/add", ["controller" => "LeadOffers", "action" => "addLeadOffer"]);
-        $builder->connect("/lead_offers/update/{id}", ["controller" => "LeadOffers", "action" => "updateLeadOffer"])->setPass(["id"]);
-        $builder->connect("/lead_offers/delete/{id}", ["controller" => "LeadOffers", "action" => "deleteLeadOffer"])->setPass(["id"]);
- */
         $builder->fallbacks();
      });
 };

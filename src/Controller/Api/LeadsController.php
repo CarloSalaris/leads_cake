@@ -49,6 +49,25 @@ class LeadsController extends AppController
         $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
     }
 
+    // View Lead
+    public function view($id)
+    {
+        $this->request->allowMethod(["get"]);
+
+        // Lead check
+        $element = $this->Leads->get($id, [
+            'contain' => ['Users', 'Clients', 'LeadOffers'],
+        ]);
+
+        $this->set([
+            "status" => true,
+            "message" => "Element",
+            "data" => $element
+        ]);
+
+        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+    }
+
     // Add lead api
     public function add()
     {

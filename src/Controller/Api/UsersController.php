@@ -25,14 +25,33 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $users = $this->Users->find()
+        $elements = $this->Users->find()
         ->contain(['Leads'])
         ->toList();
 
         $this->set([
             "status" => true,
             "message" => "Users list",
-            "data" => $users
+            "data" => $elements
+        ]);
+
+        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+    }
+
+    // View User
+    public function view($id)
+    {
+        $this->request->allowMethod(["get"]);
+
+        // User check
+        $element = $this->Users->get($id, [
+            'contain' => ['Leads'],
+        ]);
+
+        $this->set([
+            "status" => true,
+            "message" => "Element",
+            "data" => $element
         ]);
 
         $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
@@ -47,11 +66,11 @@ class UsersController extends AppController
         $formData = $this->request->getData();
 
         // insert new User
-        $usersObject = $this->Users->newEmptyEntity();
+        $element = $this->Users->newEmptyEntity();
 
-        $usersObject = $this->Users->patchEntity($usersObject, $formData);
+        $element = $this->Users->patchEntity($element, $formData);
 
-        if ($this->Users->save($usersObject)) {
+        if ($this->Users->save($element)) {
             // success response
             $status = true;
             $message = "User has been created";
@@ -70,22 +89,20 @@ class UsersController extends AppController
     }
 
     // Update User
-    public function edit()
+    public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $emp_id = $this->request->getParam("id");
-
-        $userInfo = $this->request->getData();
+        $formData = $this->request->getData();
 
         // User check
-        $user = $this->Users->get($emp_id);
+        $element = $this->Users->get($id);
 
-        if (!empty($user)) {
+        if (!empty($element)) {
             // Users exists
-            $user = $this->Users->patchEntity($user, $userInfo);
+            $element = $this->Users->patchEntity($element, $formData);
 
-            if ($this->Users->save($user)) {
+            if ($this->Users->save($element)) {
                 // success response
                 $status = true;
                 $message = "User has been updated";
@@ -109,17 +126,15 @@ class UsersController extends AppController
     }
 
     // Delete User api
-    public function delete()
+    public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $emp_id = $this->request->getParam("id");
+        $element = $this->Users->get($id);
 
-        $user = $this->Users->get($emp_id);
-
-        if (!empty($user)) {
+        if (!empty($element)) {
             // User found
-            if ($this->Users->delete($user)) {
+            if ($this->Users->delete($element)) {
                 // User deleted
                 $status = true;
                 $message = "User has been deleted";

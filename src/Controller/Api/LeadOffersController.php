@@ -25,14 +25,33 @@ class LeadOffersController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $leadOffers = $this->LeadOffers->find()
+        $elements = $this->LeadOffers->find()
         ->contain(['Leads'])
         ->toList();
 
         $this->set([
             "status" => true,
             "message" => "LeadOffers list",
-            "data" => $leadOffers
+            "data" => $elements
+        ]);
+
+        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+    }
+
+    // View LeadOffer
+    public function view($id)
+    {
+        $this->request->allowMethod(["get"]);
+
+        // LeadOffer check
+        $element = $this->LeadOffers->get($id, [
+            'contain' => ['Leads'],
+        ]);
+
+        $this->set([
+            "status" => true,
+            "message" => "Element",
+            "data" => $element
         ]);
 
         $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
@@ -47,11 +66,11 @@ class LeadOffersController extends AppController
         $formData = $this->request->getData();
 
         // insert new LeadOffer
-        $leadOffersObject = $this->LeadOffers->newEmptyEntity();
+        $element = $this->LeadOffers->newEmptyEntity();
 
-        $leadOffersObject = $this->LeadOffers->patchEntity($leadOffersObject, $formData);
+        $element = $this->LeadOffers->patchEntity($element, $formData);
 
-        if ($this->LeadOffers->save($leadOffersObject)) {
+        if ($this->LeadOffers->save($element)) {
             // success response
             $status = true;
             $message = "LeadOffer has been created";
@@ -70,22 +89,20 @@ class LeadOffersController extends AppController
     }
 
     // Update LeadOffer
-    public function edit()
+    public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $emp_id = $this->request->getParam("id");
-
-        $leadOfferInfo = $this->request->getData();
+        $formData = $this->request->getData();
 
         // LeadOffer check
-        $leadOffer = $this->LeadOffers->get($emp_id);
+        $element = $this->LeadOffers->get($id);
 
-        if (!empty($leadOffer)) {
+        if (!empty($element)) {
             // LeadOffers exists
-            $leadOffer = $this->LeadOffers->patchEntity($leadOffer, $leadOfferInfo);
+            $element = $this->LeadOffers->patchEntity($element, $formData);
 
-            if ($this->LeadOffers->save($leadOffer)) {
+            if ($this->LeadOffers->save($element)) {
                 // success response
                 $status = true;
                 $message = "LeadOffer has been updated";
@@ -109,17 +126,15 @@ class LeadOffersController extends AppController
     }
 
     // Delete LeadOffer api
-    public function delete()
+    public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $emp_id = $this->request->getParam("id");
+        $element = $this->LeadOffers->get($id);
 
-        $leadOffer = $this->LeadOffers->get($emp_id);
-
-        if (!empty($leadOffer)) {
+        if (!empty($element)) {
             // LeadOffer found
-            if ($this->LeadOffers->delete($leadOffer)) {
+            if ($this->LeadOffers->delete($element)) {
                 // LeadOffer deleted
                 $status = true;
                 $message = "LeadOffer has been deleted";
