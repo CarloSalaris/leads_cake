@@ -38,4 +38,13 @@ class LeadOffer extends Entity
         'modified' => true,
         'lead' => true,
     ];
+
+    protected function _getMarcaModello() {
+        return $this->marca . ', ' . $this->modello;
+    }
+
+    protected $_virtual = [
+        'marca_modello'
+    ];
+
 }
