@@ -20,141 +20,80 @@ class LeadOffersController extends AppController
         $this->loadModel("LeadOffers");
     }
 
-    // List LeadOffers api
     public function index()
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->LeadOffers->find()
-        ->contain(['Leads'])
-        ->toList();
+        $elements = $this->getElements(['Leads']);
 
-        $this->set([
-            "status" => true,
-            "message" => "LeadOffers list",
-            "data" => $elements
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+        $this->response($elements);
     }
-
-    // View LeadOffer
     public function view($id)
     {
         $this->request->allowMethod(["get"]);
 
-        // LeadOffer check
-        $element = $this->LeadOffers->get($id, [
-            'contain' => ['Leads'],
-        ]);
+        $element = $this->getElement($id, ['contain' => ['Leads']]);
 
-        $this->set([
-            "status" => true,
-            "message" => "Element",
-            "data" => $element
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+        $this->response($element);
     }
-
-    // Add LeadOffer api
     public function add()
     {
         $this->request->allowMethod(["post"]);
 
-        // form data
-        $formData = $this->request->getData();
+        $element = $this->form();
 
-        // insert new LeadOffer
-        $element = $this->LeadOffers->newEmptyEntity();
-
-        $element = $this->LeadOffers->patchEntity($element, $formData);
-
-        if ($this->LeadOffers->save($element)) {
-            // success response
-            $status = true;
-            $message = "LeadOffer has been created";
-        } else {
-            // error response
-            $status = false;
-            $message = "Failed to create leadOffer";
-        }
-
-        $this->set([
-            "status" => $status,
-            "message" => $message
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message"]);
+        $this->response($element);
     }
 
-    // Update LeadOffer
     public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $formData = $this->request->getData();
+        $element = $this->form($id);
 
-        // LeadOffer check
-        $element = $this->LeadOffers->get($id);
-
-        if (!empty($element)) {
-            // LeadOffers exists
-            $element = $this->LeadOffers->patchEntity($element, $formData);
-
-            if ($this->LeadOffers->save($element)) {
-                // success response
-                $status = true;
-                $message = "LeadOffer has been updated";
-            } else {
-                // error response
-                $status = false;
-                $message = "Failed to update leadOffer";
-            }
-        } else {
-            // LeadOffer not found
-            $status = false;
-            $message = "LeadOffer Not Found";
-        }
-
-        $this->set([
-            "status" => $status,
-            "message" => $message
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message"]);
+        $this->response($element);
     }
 
-    // Delete LeadOffer api
     public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $element = $this->LeadOffers->get($id);
+        $element = $this->getElement($id);
 
-        if (!empty($element)) {
-            // LeadOffer found
-            if ($this->LeadOffers->delete($element)) {
-                // LeadOffer deleted
-                $status = true;
-                $message = "LeadOffer has been deleted";
-            } else {
-                // failed to delete
-                $status = false;
-                $message = "Failed to delete leadOffer";
-            }
-        } else {
-            // not found
-            $status = false;
-            $message = "LeadOffer doesn't exists";
-        }
+        $this->LeadOffers->delete($element);
+
+        $this->response($element);
+    }
+
+    //REUSABLE METHODS
+    protected function getElements($options)
+    {
+        return $this->LeadOffers
+        ->find()
+        ->contain($options)
+        ->toList();
+    }
+
+    protected function getElement($id, $options = []) {
+        return $this->LeadOffers->get($id, $options);
+    }
+
+    protected function form($id = null) {
+        $data = $this->request->getData();
+        $element = $id ? $this->getElement($id) : $this->LeadOffers->newEmptyEntity();
+        $element = $this->LeadOffers->patchEntity($element, $data);
+        return $this->LeadOffers->save($element) ? $element : null;
+    }
+
+    protected function response($data){
 
         $this->set([
-            "status" => $status,
-            "message" => $message
+            'status' => !empty($data),
+            'message' => !empty($data) ? 'Success' : 'Failed',
+            'data' => $data
         ]);
 
-        $this->viewBuilder()->setOption("serialize", ["status", "message"]);
+        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data']);
     }
 
 }
