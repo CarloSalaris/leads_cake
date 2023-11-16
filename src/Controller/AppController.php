@@ -50,4 +50,37 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
     }
+
+    //REUSABLE METHODS
+    protected function getElements($table, $options){
+        $t = $this->loadModel($table);
+        return $t
+        ->find()
+        ->contain($options)
+        ->toList();
+    }
+
+    protected function getElement($table, $id, $options = []) {
+        $t = $this->loadModel($table);
+        return $t->get($id, $options);
+    }
+
+    protected function form($table, $id = null) {
+        $t = $this->loadModel($table);
+        $data = $this->request->getData();
+        $element = $id ? $this->getElement($table, $id) : $t->newEmptyEntity();
+        $element = $t->patchEntity($element, $data);
+        return $t->save($element) ? $element : null;
+    }
+
+    protected function response($data){
+
+        $this->set([
+            'status' => !empty($data),
+            'message' => !empty($data) ? 'Success' : 'Failed',
+            'data' => $data
+        ]);
+
+        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data']);
+    }
 }

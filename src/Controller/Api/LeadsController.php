@@ -24,7 +24,7 @@ class LeadsController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->getElements(['Users', 'Clients', 'LeadOffers']);
+        $elements = $this->getLeadsElements(['Users', 'Clients', 'LeadOffers']);
 
         $this->response($elements);
     }
@@ -33,7 +33,7 @@ class LeadsController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $element = $this->getElement($id, ['contain' => ['Users', 'Clients', 'LeadOffers']]);
+        $element = $this->getElement('Leads', $id, ['contain' => ['Users', 'Clients', 'LeadOffers']]);
 
         $this->response($element);
     }
@@ -41,7 +41,7 @@ class LeadsController extends AppController
     {
         $this->request->allowMethod(["post"]);
 
-        $element = $this->form();
+        $element = $this->form('Leads');
 
         $this->response($element);
     }
@@ -50,7 +50,7 @@ class LeadsController extends AppController
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $element = $this->form($id);
+        $element = $this->form('Leads', $id);
 
         $this->response($element);
     }
@@ -59,7 +59,7 @@ class LeadsController extends AppController
     {
         $this->request->allowMethod(["delete"]);
 
-        $element = $this->getElement($id);
+        $element = $this->getElement('Leads', $id);
 
         $this->Leads->delete($element);
 
@@ -67,7 +67,7 @@ class LeadsController extends AppController
     }
 
     //REUSABLE METHODS
-    protected function getElements($options)
+    protected function getLeadsElements($options)
     {
         $q = $this->Leads
         ->find()
@@ -84,27 +84,4 @@ class LeadsController extends AppController
         }
         return $q->toList();
     }
-
-    protected function getElement($id, $options = []) {
-        return $this->Leads->get($id, $options);
-    }
-
-    protected function form($id = null) {
-        $data = $this->request->getData();
-        $element = $id ? $this->getElement($id) : $this->Leads->newEmptyEntity();
-        $element = $this->Leads->patchEntity($element, $data);
-        return $this->Leads->save($element) ? $element : null;
-    }
-
-    protected function response($data){
-
-        $this->set([
-            'status' => !empty($data),
-            'message' => !empty($data) ? 'Success' : 'Failed',
-            'data' => $data
-        ]);
-
-        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data']);
-    }
-
 }

@@ -23,7 +23,7 @@ class ClientsController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->getElements(['Leads']);
+        $elements = $this->getElements('Clients', ['Leads']);
 
         $this->response($elements);
     }
@@ -31,7 +31,7 @@ class ClientsController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $element = $this->getElement($id, ['contain' => ['Leads']]);
+        $element = $this->getElement('Clients', $id, ['contain' => ['Leads']]);
 
         $this->response($element);
     }
@@ -39,7 +39,7 @@ class ClientsController extends AppController
     {
         $this->request->allowMethod(["post"]);
 
-        $element = $this->form();
+        $element = $this->form('Clients');
 
         $this->response($element);
     }
@@ -48,7 +48,7 @@ class ClientsController extends AppController
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $element = $this->form($id);
+        $element = $this->form('Clients', $id);
 
         $this->response($element);
     }
@@ -57,41 +57,10 @@ class ClientsController extends AppController
     {
         $this->request->allowMethod(["delete"]);
 
-        $element = $this->getElement($id);
+        $element = $this->getElement('Clients', $id);
 
         $this->Clients->delete($element);
 
         $this->response($element);
-    }
-
-    //REUSABLE METHODS
-    protected function getElements($options)
-    {
-        return $this->Clients
-        ->find()
-        ->contain($options)
-        ->toList();
-    }
-
-    protected function getElement($id, $options = []) {
-        return $this->Clients->get($id, $options);
-    }
-
-    protected function form($id = null) {
-        $data = $this->request->getData();
-        $element = $id ? $this->getElement($id) : $this->Clients->newEmptyEntity();
-        $element = $this->Clients->patchEntity($element, $data);
-        return $this->Clients->save($element) ? $element : null;
-    }
-
-    protected function response($data){
-
-        $this->set([
-            'status' => !empty($data),
-            'message' => !empty($data) ? 'Success' : 'Failed',
-            'data' => $data
-        ]);
-
-        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data']);
     }
 }
