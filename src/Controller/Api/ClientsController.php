@@ -19,147 +19,79 @@ class ClientsController extends AppController
 
         $this->loadModel("Clients");
     }
-
-    // List clients api
     public function index()
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->Clients
-        ->find()
-        ->contain(['Leads'])
-        ->toList();
+        $elements = $this->getElements(['Leads']);
 
-        $this->set([
-            "status" => true,
-            "message" => "Elements list",
-            "data" => $elements
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+        $this->response($elements);
     }
-
-    // View Client
     public function view($id)
     {
         $this->request->allowMethod(["get"]);
 
-        // Client check
-        $element = $this->Clients->get($id, [
-            'contain' => ['Leads'],
-        ]);
+        $element = $this->getElement($id, ['contain' => ['Leads']]);
 
-        $this->set([
-            "status" => true,
-            "message" => "Element",
-            "data" => $element
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message", "data"]);
+        $this->response($element);
     }
-
-    // Add Client api
     public function add()
     {
         $this->request->allowMethod(["post"]);
 
-        // form data
-        $formData = $this->request->getData();
+        $element = $this->form();
 
-        // insert new Client
-        $element = $this->Clients->newEmptyEntity();
-
-        $element = $this->Clients->patchEntity($element, $formData);
-
-        if ($this->Clients->save($element)) {
-            // success response
-            $status = true;
-            $message = "Element has been created";
-        } else {
-            // error response
-            $status = false;
-            $message = "Failed to create element";
-        }
-
-        $this->set([
-            "status" => $status,
-            "message" => $message
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message"]);
+        $this->response($element);
     }
 
-    // Update Client
     public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        /* $emp_id = $this->request->getParam("id"); */
+        $element = $this->form($id);
 
-        $formData = $this->request->getData();
-
-        // Client check
-        $element = $this->Clients->get($id);
-
-        if (!empty($element)) {
-            // Clients exists
-            $element = $this->Clients->patchEntity($element, $formData);
-
-            if ($this->Clients->save($element)) {
-                // success response
-                $status = true;
-                $message = "Client has been updated";
-            } else {
-                // error response
-                $status = false;
-                $message = "Failed to update Client";
-            }
-        } else {
-            // Client not found
-            $status = false;
-            $message = "Client Not Found";
-        }
-
-        $this->set([
-            "status" => $status,
-            "message" => $message
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message"]);
+        $this->response($element);
     }
 
-    // Delete Client api
     public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        /* $id = $this->request->getParam("id"); */
+        $element = $this->getElement($id);
 
-        $element = $this->Clients->get($id);
+        $this->Clients->delete($element);
 
-        if (!empty($element)) {
-            // Client found
-            if ($this->Clients->delete($element)) {
-                // Client deleted
-                $status = true;
-                $message = "Client has been deleted";
-            } else {
-                // failed to delete
-                $status = false;
-                $message = "Failed to delete Client";
-            }
-        } else {
-            // not found
-            $status = false;
-            $message = "Client doesn't exists";
-        }
-
-        $this->set([
-            "status" => $status,
-            "message" => $message
-        ]);
-
-        $this->viewBuilder()->setOption("serialize", ["status", "message"]);
+        $this->response($element);
     }
 
+    //REUSABLE METHODS
+    protected function getElements($options)
+    {
+        return $this->Clients
+        ->find()
+        ->contain($options)
+        ->toList();
+    }
+
+    protected function getElement($id, $options = []) {
+        return $this->Clients->get($id, $options);
+    }
+
+    protected function form($id = null) {
+        $data = $this->request->getData();
+        $element = $id ? $this->getElement($id) : $this->Clients->newEmptyEntity();
+        $element = $this->Clients->patchEntity($element, $data);
+        return $this->Clients->save($element) ? $element : null;
+    }
+
+    protected function response($data){
+
+        $this->set([
+            'status' => !empty($data),
+            'message' => !empty($data) ? 'Success' : 'Failed',
+            'data' => $data
+        ]);
+
+        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data']);
+    }
 }
