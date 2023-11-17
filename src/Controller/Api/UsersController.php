@@ -24,45 +24,45 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->getElements('Users', ['Leads']);
+        $elements = $this->_getElements();
 
-        $this->response($elements);
+        $this->_response($elements);
     }
     public function view($id)
     {
         $this->request->allowMethod(["get"]);
 
-        $element = $this->getElement('Users', $id, ['contain' => ['Leads']]);
+        $element = $this->_getElement($id);
 
-        $this->response($element);
+        $this->_response($element);
     }
     public function add()
     {
         $this->request->allowMethod(["post"]);
 
-        $element = $this->form('Users');
+        $element = $this->_form();
 
-        $this->response($element);
+        $this->_response($element);
     }
 
     public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $element = $this->form('Users', $id);
+        $element = $this->_form($id);
 
-        $this->response($element);
+        $this->_response($element);
     }
 
     public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $element = $this->getElement('User', $id);
+        $element = $this->_getElement($id);
 
         $this->Users->delete($element);
 
-        $this->response($element);
+        $this->_response($element);
     }
 
 }
