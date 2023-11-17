@@ -96,4 +96,24 @@ class LeadOffersTable extends Table
 
         return $rules;
     }
+
+    public function findIndex(Query $query, array $options): Query
+    {
+        return $query->contain([
+            'Leads',
+        ]);
+    }
+
+    public function findFull(Query $query, array $options): Query
+    {
+        return $query->contain([
+            'Leads',
+        ]);
+    }
+
+    public function findFilters(Query $query, array $options): Query
+    {
+        //Fill with filters
+        return $query;
+    }
 }
