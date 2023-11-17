@@ -51,6 +51,54 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
     }
 
+    //CRUD
+    public function index()
+    {
+        $this->request->allowMethod(["get"]);
+
+        $elements = $this->_getElements();
+
+        $this->_response($elements);
+    }
+
+    public function view($id)
+    {
+        $this->request->allowMethod(["get"]);
+
+        $element = $this->_getElement($id);
+
+        $this->_response($element);
+    }
+    public function add()
+    {
+        $this->request->allowMethod(["post"]);
+
+        $element = $this->_form();
+
+        $this->_response($element);
+    }
+
+    public function edit($id)
+    {
+        $this->request->allowMethod(["put", "post"]);
+
+        $element = $this->_form($id);
+
+        $this->_response($element);
+    }
+
+    public function delete($id)
+    {
+        $this->request->allowMethod(["delete"]);
+
+        $element = $this->_getElement($id);
+
+        $this->Users->delete($element);
+
+        $this->_response($element);
+    }
+
+
     //REUSABLE METHODS
     protected function _getElements(){
         return $this->{$this->name}
@@ -61,7 +109,8 @@ class AppController extends Controller
 
     protected function _getElement($id){
         $t = $this->{$this->name};
-    $tAlias = $t->getTable();
+        $tAlias = $t->getTable();
+        $tAlias = str_replace('_','', $tAlias);
 
     return $t
         ->find('full')
