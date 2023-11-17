@@ -23,44 +23,44 @@ class ClientsController extends AppController
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->getElements('Clients', ['Leads']);
+        $elements = $this->_getElements();
 
-        $this->response($elements);
+        $this->_response($elements);
     }
     public function view($id)
     {
         $this->request->allowMethod(["get"]);
 
-        $element = $this->getElement('Clients', $id, ['contain' => ['Leads']]);
+        $element = $this->_getElement($id);
 
-        $this->response($element);
+        $this->_response($element);
     }
     public function add()
     {
         $this->request->allowMethod(["post"]);
 
-        $element = $this->form('Clients');
+        $element = $this->_form();
 
-        $this->response($element);
+        $this->_response($element);
     }
 
     public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $element = $this->form('Clients', $id);
+        $element = $this->_form($id);
 
-        $this->response($element);
+        $this->_response($element);
     }
 
     public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $element = $this->getElement('Clients', $id);
+        $element = $this->_getElement($id);
 
         $this->Clients->delete($element);
 
-        $this->response($element);
+        $this->_response($element);
     }
 }
