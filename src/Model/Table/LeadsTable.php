@@ -101,16 +101,58 @@ class LeadsTable extends Table
         return $validator;
     }
 
+   /*  public function findReport(Query $query, array $options): Query
+    {
+        return $query->contain([
+        ]);
+    }
+
+    public function findAssociations(Query $query, array $options): Query
+    {
+        return $query->contain([
+        ]);
+    }
+ */
+    public function findIndex(Query $query, array $options): Query
+    {
+        return $query->contain([
+            'Users',
+            'LeadOffers',
+            'Clients',
+        ]);
+    }
+
+    public function findFull(Query $query, array $options): Query
+    {
+        return $query->contain([
+            'Users',
+            'LeadOffers',
+            'Clients',
+        ]);
+    }
+
+    public function findFilters(Query $query, array $options): Query
+    {
+        if ($options['notClient'] ?? null) {
+            $query->find('notClient');
+        }
+        if ($options['giuridico'] ?? null) {
+            $query->find('giuridico');
+        }
+        if ($options['privato'] ?? null) {
+            $query->find('privato');
+        }
+        return $query;
+    }
+    //FILTRI
     public function findPrivato(Query $query, array $options): Query
     {
         return $query->where(['tipo_soggetto' => 'P']);
     }
-
     public function findGiuridico(Query $query, array $options): Query
     {
         return $query->where(['tipo_soggetto' => 'G']);
     }
-
     public function findNotClient(Query $query, array $options): Query
     {
         return $query->where(['Clients.id IS NULL']);

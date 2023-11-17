@@ -20,68 +20,56 @@ class LeadsController extends AppController
         $this->loadModel("Leads");
     }
 
+    /* protected function _getElements(){
+        $all = parent::_getElements();
+        faccio cose con $all
+    } */
     public function index()
     {
         $this->request->allowMethod(["get"]);
 
-        $elements = $this->getLeadsElements(['Users', 'Clients', 'LeadOffers']);
+        $all = $this->_getElements();
 
-        $this->response($elements);
+        $this->_response($all);
     }
 
     public function view($id)
     {
         $this->request->allowMethod(["get"]);
 
-        $element = $this->getElement('Leads', $id, ['contain' => ['Users', 'Clients', 'LeadOffers']]);
+        $element = $this->_getElement($id);
 
-        $this->response($element);
+        $this->_response($element);
     }
     public function add()
     {
         $this->request->allowMethod(["post"]);
 
-        $element = $this->form('Leads');
+        $element = $this->_form();
 
-        $this->response($element);
+        $this->_response($element);
     }
 
     public function edit($id)
     {
         $this->request->allowMethod(["put", "post"]);
 
-        $element = $this->form('Leads', $id);
+        /** @var \App\Model\Entity\Lead $element */
+        $element = $this->_form($id);
+        echo($element->ragione_sociale);
 
-        $this->response($element);
+        $this->_response($element);
     }
 
     public function delete($id)
     {
         $this->request->allowMethod(["delete"]);
 
-        $element = $this->getElement('Leads', $id);
+        $element = $this->_getElement($id);
 
         $this->Leads->delete($element);
 
-        $this->response($element);
+        $this->_response($element);
     }
 
-    //REUSABLE METHODS
-    protected function getLeadsElements($options)
-    {
-        $q = $this->Leads
-        ->find()
-        ->contain($options);
-
-        if ($this->request->getQuery('notClient')) {
-            $q->find('notClient');
-        }
-        if ($this->request->getQuery('giuridico')) {
-            $q->find('giuridico');
-        }
-        if ($this->request->getQuery('privato')) {
-            $q->find('privato');
-        }
-        return $q->toList();
-    }
 }

@@ -52,28 +52,32 @@ class AppController extends Controller
     }
 
     //REUSABLE METHODS
-    protected function getElements($table, $options){
-        $t = $this->loadModel($table);
-        return $t
-        ->find()
-        ->contain($options)
+    protected function _getElements(){
+        return $this->{$this->name}
+        ->find('index')
+        ->find('filters')
         ->toList();
     }
 
-    protected function getElement($table, $id, $options = []) {
-        $t = $this->loadModel($table);
-        return $t->get($id, $options);
+    protected function _getElement($id){
+        $t = $this->{$this->name};
+    $tAlias = $t->getTable();
+
+    return $t
+        ->find('full')
+        ->where([$tAlias . '.id' => $id])
+        ->first();
     }
 
-    protected function form($table, $id = null) {
-        $t = $this->loadModel($table);
+    protected function _form($id = null) {
+        $t = $this->{$this->name};
         $data = $this->request->getData();
-        $element = $id ? $this->getElement($table, $id) : $t->newEmptyEntity();
+        $element = $id ? $this->_getElement($id) : $t->newEmptyEntity();
         $element = $t->patchEntity($element, $data);
         return $t->save($element) ? $element : null;
     }
 
-    protected function response($data){
+    protected function _response($data){
 
         $this->set([
             'status' => !empty($data),
