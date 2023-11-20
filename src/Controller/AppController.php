@@ -43,6 +43,7 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Paginator');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
@@ -50,6 +51,13 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
     }
+
+    public $paginate = [
+        'limit' => 10,
+        'order' => [
+            'id' => 'asc'
+        ]
+    ];
 
     //CRUD
     public function index()
@@ -101,9 +109,12 @@ class AppController extends Controller
 
     //REUSABLE METHODS
     protected function _getElements(){
-        return $this->{$this->name}
+
+        $t = $this->name;
+        return $this->{$t}
         ->find('index')
         ->find('filters')
+        ->set($t, $this->paginate($this->$t))
         ->toList();
     }
 
@@ -128,12 +139,13 @@ class AppController extends Controller
 
     protected function _response($data){
 
-        $this->set([
-            'status' => !empty($data),
-            'message' => !empty($data) ? 'Success' : 'Failed',
-            'data' => $data
-        ]);
+    $this->set([
+        'status' => !empty($data),
+        'message' => !empty($data) ? 'Success' : 'Failed',
+        'data' => $data,
+        'pagination' => $this->request->getAttribute('paging')
+    ]);
 
-        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data']);
+        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data', 'pagination']);
     }
 }
