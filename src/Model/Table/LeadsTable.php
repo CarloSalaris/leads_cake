@@ -117,8 +117,8 @@ class LeadsTable extends Table
     {
         return $query->contain([
             'Users',
-            'LeadOffers',
-            'Clients',
+            /* 'LeadOffers',
+            'Clients', */
         ]);
     }
 
