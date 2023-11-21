@@ -152,7 +152,9 @@ class AppController extends Controller
 
     protected function _paginationData() {
         $pagination = $this->request->getAttribute('paging');
+        /* logd($pagination); */
         $pagination = array_values($pagination)[0];
+
 
         $paginationResponse = [
             'count' => $pagination['count'],

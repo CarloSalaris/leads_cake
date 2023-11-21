@@ -227,3 +227,17 @@ TypeFactory::map('time', StringType::class);
 // and https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax
 //\Cake\I18n\FrozenDate::setToStringFormat('dd.MM.yyyy');
 //\Cake\I18n\FrozenTime::setToStringFormat('dd.MM.yyyy HH:mm');
+
+/**
+ * Debugs to log
+ * @param  string $string
+ * @return void
+ */
+function logd()
+{
+    if (!Configure::read('debug'))
+        return;
+    $st = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+    foreach (func_get_args() as $string)
+        Log::write('debug', $st[0]['file'] . ':' . $st[0]['line'] . ' ' . print_r($string, true));
+};
