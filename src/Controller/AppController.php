@@ -138,14 +138,31 @@ class AppController extends Controller
     }
 
     protected function _response($data){
+        $extractedPagination = $this->_paginationData();
 
-    $this->set([
-        'status' => !empty($data),
-        'message' => !empty($data) ? 'Success' : 'Failed',
-        'data' => $data,
-        'pagination' => $this->request->getAttribute('paging')
-    ]);
+        $this->set([
+            'status' => !empty($data),
+            'message' => !empty($data) ? 'Success' : 'Failed',
+            'data' => $data,
+            'pagination' => $extractedPagination,
+        ]);
 
         $this->viewBuilder()->setOption('serialize', ['status', 'message', 'data', 'pagination']);
+    }
+
+    protected function _paginationData() {
+        $pagination = $this->request->getAttribute('paging');
+        $pagination = array_values($pagination)[0];
+
+        $paginationResponse = [
+            'count' => $pagination['count'],
+            'current_page' => $pagination['page'],
+            'has_next_page' => $pagination['nextPage'],
+            'has_prev_page' => $pagination['prevPage'],
+            'limit' => $pagination['limit'],
+            'page_count' => $pagination['pageCount'],
+        ];
+
+        return $paginationResponse;
     }
 }
