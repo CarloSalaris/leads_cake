@@ -73,4 +73,37 @@ class UsersTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test findIndex method
+     *
+     * @return void
+     * @uses \App\Model\Table\UsersTable::findIndex()
+     */
+    public function testFindIndex(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findFull method
+     *
+     * @return void
+     * @uses \App\Model\Table\UsersTable::findFull()
+     */
+    public function testFindFull(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findFilters method
+     *
+     * @return void
+     * @uses \App\Model\Table\UsersTable::findFilters()
+     */
+    public function testFindFilters(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

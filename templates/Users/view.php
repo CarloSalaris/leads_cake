@@ -30,6 +30,14 @@
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($user->id) ?></td>
                 </tr>
+                <tr>
+                    <th><?= __('Created') ?></th>
+                    <td><?= h($user->created) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Modified') ?></th>
+                    <td><?= h($user->modified) ?></td>
+                </tr>
             </table>
             <div class="related">
                 <h4><?= __('Related Leads') ?></h4>
@@ -39,6 +47,7 @@
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('User Id') ?></th>
+                            <th><?= __('Client Id') ?></th>
                             <th><?= __('Ragione Sociale') ?></th>
                             <th><?= __('Email') ?></th>
                             <th><?= __('Telefono') ?></th>
@@ -51,6 +60,7 @@
                         <tr>
                             <td><?= h($leads->id) ?></td>
                             <td><?= h($leads->user_id) ?></td>
+                            <td><?= h($leads->client_id) ?></td>
                             <td><?= h($leads->ragione_sociale) ?></td>
                             <td><?= h($leads->email) ?></td>
                             <td><?= h($leads->telefono) ?></td>

@@ -10,7 +10,10 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $username
+ * @property string|null $password
  * @property string $role
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Lead[] $leads
  */
@@ -27,7 +30,19 @@ class User extends Entity
      */
     protected $_accessible = [
         'username' => true,
+        'password' => true,
         'role' => true,
+        'created' => true,
+        'modified' => true,
         'leads' => true,
+    ];
+
+    /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var array<string>
+     */
+    protected $_hidden = [
+        'password',
     ];
 }
