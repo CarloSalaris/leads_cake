@@ -5,6 +5,8 @@ namespace App\Controller\Api;
 
 use App\Controller\AppController;
 use Firebase\JWT\JWT;
+use Cake\Utility\Security;
+
 
 /**
  * Users Controller
@@ -22,6 +24,25 @@ class UsersController extends AppController
     public function login()
     {
         $this->request->allowMethod(['get', 'post']);
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()) {
+            $privateKey = Security::getSalt();
+            $user = $result->getData();
+            $payload = [
+                'iss' => 'myapp',
+                'sub' => $user->id,
+                'exp' => time() + 1800, //mezz'ora
+            ];
+            $json = [
+                'token' => JWT::encode($payload, $privateKey, 'HS256'),
+            ];
+        } else {
+            $this->response = $this->response->withStatus(401);
+            $json = [];
+        }
+        $this->set(compact('json'));
+        $this->viewBuilder()->setOption('serialize', 'json');
+        /* $this->request->allowMethod(['get', 'post']);
 
         $result = $this->Authentication->getResult();
 
@@ -45,10 +66,10 @@ class UsersController extends AppController
             ]);
         }
 
-        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'token']);
+        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'token']); */
     }
 
-    protected function _generateJwtToken($user)
+    /* protected function _generateJwtToken($user)
 {
     $key = 'secret_key';
     $token = [
@@ -57,5 +78,5 @@ class UsersController extends AppController
     ];
 
     return JWT::encode($token, $key, 'HS256');
-}
+} */
 }
