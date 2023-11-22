@@ -39,6 +39,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
         </div>
         <div class="top-nav-links">
+            <?= $this->Html->link('Users', [
+                'controller' => 'Users',
+                'action' => 'index'
+            ]) ?>
             <?= $this->Html->link('Leads', [
                 'controller' => 'Leads',
                 'action' => 'index'
