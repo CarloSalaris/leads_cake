@@ -141,33 +141,33 @@ implements AuthenticationServiceProviderInterface
 
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
 {
-    $authenticationService = new AuthenticationService([
-        'unauthenticatedRedirect' => Router::url('/users/login'),
-        'queryParam' => 'redirect',
-    ]);
+    $service = new AuthenticationService();
 
-    // Load identifiers, ensure we check email and password fields
-    $authenticationService->loadIdentifier('Authentication.Password', [
+    $service->loadIdentifier('Authentication.Password', [
         'fields' => [
             'username' => 'username',
             'password' => 'password',
         ]
     ]);
 
-    // Load the authenticators, you want session first
-    $authenticationService->loadAuthenticator('Authentication.Session');
-    // Configure form data check to pick email and password
-    $authenticationService->loadAuthenticator('Authentication.Form', [
+    /* $service->loadAuthenticator('Authentication.Session'); */
+     $service->loadAuthenticator('Authentication.Form', [
         'fields' => [
             'username' => 'username',
             'password' => 'password',
         ],
-        'loginUrl' => Router::url('/api/users/login.json'),
+    ]);
+    /*    //'loginUrl' => Router::url('/api/users/login.json'),
         //To work on views
-        /* 'loginUrl' => Router::url('/users/login'), */
+        'loginUrl' => Router::url('/users/login'),
 
+     */
+
+    $service->loadIdentifier('Authentication.JwtSubject');
+    $service->loadAuthenticator('Authentication.Jwt', [
+        'returnPayload' => false,
     ]);
 
-    return $authenticationService;
+    return $service;
 }
 }
