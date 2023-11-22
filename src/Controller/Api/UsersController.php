@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
+use Firebase\JWT\JWT;
 
 /**
  * Users Controller
@@ -18,4 +19,43 @@ class UsersController extends AppController
         parent::initialize();
     }
 
+    public function login()
+    {
+        $this->request->allowMethod(['get', 'post']);
+
+        $result = $this->Authentication->getResult();
+
+        logd($result);
+
+        if ($result->isValid()) {
+
+            $user = $result->getData();
+
+            $token = $this->_generateJwtToken($user);
+
+            $this->set([
+                'status' => true,
+                'message' => 'Login successful',
+                'token' => $token,
+            ]);
+        } else {
+            $this->set([
+                'status' => false,
+                'message' => 'Invalid credentials',
+            ]);
+        }
+
+        $this->viewBuilder()->setOption('serialize', ['status', 'message', 'token']);
+    }
+
+    protected function _generateJwtToken($user)
+{
+    $key = 'secret_key';
+    $token = [
+        'sub' => $user['id'],
+        'exp' => time() + 3600,
+    ];
+
+    return JWT::encode($token, $key, 'HS256');
+}
 }

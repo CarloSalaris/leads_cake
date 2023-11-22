@@ -162,7 +162,10 @@ implements AuthenticationServiceProviderInterface
             'username' => 'username',
             'password' => 'password',
         ],
-        'loginUrl' => Router::url('/users/login'),
+        'loginUrl' => Router::url('/api/users/login.json'),
+        //To work on views
+        /* 'loginUrl' => Router::url('/users/login'), */
+
     ]);
 
     return $authenticationService;
