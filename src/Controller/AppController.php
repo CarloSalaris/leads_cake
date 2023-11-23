@@ -44,6 +44,7 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('Paginator');
         $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.

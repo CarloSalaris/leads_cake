@@ -33,6 +33,11 @@ use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Policy\OrmResolver;
 
 /**
  * Application setup class.
@@ -41,7 +46,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * want to use in your application.
  */
 class Application extends BaseApplication
-implements AuthenticationServiceProviderInterface
+implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -107,7 +112,8 @@ implements AuthenticationServiceProviderInterface
             /* ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
             ])) */
-            ->add(new AuthenticationMiddleware($this));
+            ->add(new AuthenticationMiddleware($this))
+            ->add(new AuthorizationMiddleware($this));
 
         return $middlewareQueue;
     }
@@ -140,35 +146,42 @@ implements AuthenticationServiceProviderInterface
     }
 
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
-{
-    $service = new AuthenticationService();
+    {
+        $service = new AuthenticationService();
 
-    $service->loadIdentifier('Authentication.Password', [
-        'fields' => [
-            'username' => 'username',
-            'password' => 'password',
-        ]
-    ]);
+        $service->loadIdentifier('Authentication.Password', [
+            'fields' => [
+                'username' => 'username',
+                'password' => 'password',
+            ]
+        ]);
 
-    /* $service->loadAuthenticator('Authentication.Session'); */
-     $service->loadAuthenticator('Authentication.Form', [
-        'fields' => [
-            'username' => 'username',
-            'password' => 'password',
-        ],
-    ]);
-    /*    //'loginUrl' => Router::url('/api/users/login.json'),
-        //To work on views
-        'loginUrl' => Router::url('/users/login'),
+        /* $service->loadAuthenticator('Authentication.Session'); */
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => [
+                'username' => 'username',
+                'password' => 'password',
+            ],
+        ]);
+        /*    //'loginUrl' => Router::url('/api/users/login.json'),
+            //To work on views
+            'loginUrl' => Router::url('/users/login'),
 
-     */
+        */
 
-    $service->loadIdentifier('Authentication.JwtSubject');
-    $service->loadAuthenticator('Authentication.Jwt', [
-        'dataField' => 'sub',
-        'returnPayload' => false,
-    ]);
+        $service->loadIdentifier('Authentication.JwtSubject');
+        $service->loadAuthenticator('Authentication.Jwt', [
+            'dataField' => 'sub',
+            'returnPayload' => false,
+        ]);
 
-    return $service;
-}
+        return $service;
+    }
+
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
+    {
+        $resolver = new OrmResolver();
+
+        return new AuthorizationService($resolver);
+    }
 }
