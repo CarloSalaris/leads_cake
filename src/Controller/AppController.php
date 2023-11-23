@@ -71,6 +71,8 @@ class AppController extends Controller
     //CRUD
     public function index()
     {
+        // $this->Authorization->skipAuthorization();
+
         $this->request->allowMethod(["get"]);
 
         $elements = $this->_getElements();
@@ -132,10 +134,13 @@ class AppController extends Controller
         $tAlias = $t->getTable();
         $tAlias = str_replace('_','', $tAlias);
 
-    return $t
-        ->find('full')
-        ->where([$tAlias . '.id' => $id])
-        ->first();
+        $q = $t
+            ->find('full')
+            ->where([$tAlias . '.id' => $id])
+            ->first();
+
+        $this->Authorization->authorize($q);
+        return $q;
     }
 
     protected function _form($id = null) {
@@ -143,6 +148,9 @@ class AppController extends Controller
         $data = $this->request->getData();
         $element = $id ? $this->_getElement($id) : $t->newEmptyEntity();
         $element = $t->patchEntity($element, $data);
+
+        $this->Authorization->authorize($element);
+
         return $t->save($element) ? $element : null;
     }
 
