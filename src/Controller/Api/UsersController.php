@@ -26,12 +26,12 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
-            $privateKey = 'secret_key';
+            $privateKey = Security::getSalt();
             $user = $result->getData();
             $payload = [
                 'iss' => 'myapp',
                 'sub' => $user->id,
-                'exp' => time() + 60,
+                'exp' => time() + 1800, //mezz'ora
             ];
             $json = [
                 'token' => JWT::encode($payload, $privateKey, 'HS256'),
