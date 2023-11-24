@@ -75,7 +75,7 @@ implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderI
             $this->addPlugin('DebugKit');
         }
 
-        // Load more plugins here
+        $this->addPlugin('Authorization');
     }
 
     /**
