@@ -63,9 +63,15 @@ class AppController extends Controller
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
-    // for all controllers in our application, make index and view
-    // actions public, skipping the authentication check
-    $this->Authentication->addUnauthenticatedActions(['login'/* , 'index', 'view' */]);
+
+        //All Users can login
+        $this->Authentication->addUnauthenticatedActions(['login']);
+
+        // If the user is logged in
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()) {
+            $this->Authorization->skipAuthorization();
+        }
     }
 
     //CRUD
@@ -86,6 +92,8 @@ class AppController extends Controller
 
         $element = $this->_getElement($id);
 
+        $this->Authorization->authorize($element);
+
         $this->_response($element);
     }
     public function add()
@@ -93,6 +101,8 @@ class AppController extends Controller
         $this->request->allowMethod(["post"]);
 
         $element = $this->_form();
+
+        $this->Authorization->authorize($element);
 
         $this->_response($element);
     }
@@ -103,6 +113,8 @@ class AppController extends Controller
 
         $element = $this->_form($id);
 
+        $this->Authorization->authorize($element);
+
         $this->_response($element);
     }
 
@@ -111,6 +123,8 @@ class AppController extends Controller
         $this->request->allowMethod(["delete"]);
 
         $element = $this->_getElement($id);
+
+        $this->Authorization->authorize($element);
 
         $this->Users->delete($element);
 
@@ -134,13 +148,10 @@ class AppController extends Controller
         $tAlias = $t->getTable();
         $tAlias = str_replace('_','', $tAlias);
 
-        $q = $t
+        return $t
             ->find('full')
             ->where([$tAlias . '.id' => $id])
             ->first();
-
-        $this->Authorization->authorize($q);
-        return $q;
     }
 
     protected function _form($id = null) {
@@ -148,8 +159,6 @@ class AppController extends Controller
         $data = $this->request->getData();
         $element = $id ? $this->_getElement($id) : $t->newEmptyEntity();
         $element = $t->patchEntity($element, $data);
-
-        $this->Authorization->authorize($element);
 
         return $t->save($element) ? $element : null;
     }
