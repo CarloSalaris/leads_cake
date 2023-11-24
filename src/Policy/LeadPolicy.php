@@ -35,6 +35,11 @@ class LeadPolicy
         if ($user->role === 'Admin') {
             return true;
         }
+
+        if ($user->role === 'Agent' && $user->id === $lead->user_id) {
+            return true;
+        }
+
         return false;
     }
 
@@ -65,6 +70,11 @@ class LeadPolicy
         if ($user->role === 'Admin') {
             return true;
         }
+
+        if ($user->role === 'Agent' && $user->id === $lead->user_id) {
+            return true;
+        }
+
         return false;
     }
 }
