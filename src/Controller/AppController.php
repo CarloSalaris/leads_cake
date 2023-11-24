@@ -70,7 +70,7 @@ class AppController extends Controller
         // If the user is logged in
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
-            $this->Authorization->skipAuthorization();
+            $this->Authorization->skipAuthorization(['index']);
         }
     }
 
@@ -123,11 +123,10 @@ class AppController extends Controller
         $this->request->allowMethod(["delete"]);
 
         $element = $this->_getElement($id);
-        $this->Authorization->authorize($element);
 
-        $this->Authorization->authorize($element);
+        // $this->Authorization->authorize($element);
 
-        $this->Users->delete($element);
+        $this->{$this->name}->delete($element);
 
         $this->_response($element);
     }
