@@ -20,7 +20,15 @@ class LeadPolicy
      */
     public function canAdd(IdentityInterface $user, Lead $lead)
     {
-        return true;
+        if ($user->role === 'Admin') {
+            return true;
+        }
+
+        if ($user->role === 'Agent' && $user->id === $lead->user_id) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
