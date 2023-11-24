@@ -32,7 +32,10 @@ class LeadPolicy
      */
     public function canEdit(IdentityInterface $user, Lead $lead)
     {
-        return true;
+        if ($user->role === 'Admin') {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -44,7 +47,10 @@ class LeadPolicy
      */
     public function canDelete(IdentityInterface $user, Lead $lead)
     {
-        return true;
+        if ($user->role === 'Admin') {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -56,6 +62,9 @@ class LeadPolicy
      */
     public function canView(IdentityInterface $user, Lead $lead)
     {
-        return true;
+        if ($user->role === 'Admin') {
+            return true;
+        }
+        return false;
     }
 }
