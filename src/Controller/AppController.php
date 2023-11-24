@@ -123,6 +123,7 @@ class AppController extends Controller
         $this->request->allowMethod(["delete"]);
 
         $element = $this->_getElement($id);
+        $this->Authorization->authorize($element);
 
         $this->Authorization->authorize($element);
 
